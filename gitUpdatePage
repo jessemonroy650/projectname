@@ -1,0 +1,37 @@
+#!/bin/bash
+#	2015-07-02 - Added comment for repository
+# Clear the screen
+clear
+# get the current status of files
+git status
+
+# Ask if we want add changes to the repository. Store answer in variable "yesorno"
+echo ""
+read -p "    Add changed files to repository? (Y or N) " yesorno
+#echo ""
+
+# branch on response. If 'yes', gather comment for respository commit.
+case $yesorno in
+    [Yy])
+        DOTHIS='AddChanged'
+        read -p "    Comments for commit log: " COMMENT
+    ;;
+    yes|YES)
+        DOTHIS='AddChanged'
+        read -p "    Comments for commit log: " COMMENT
+    ;;
+    [Nn])
+        DOTHIS='DropOut'
+    ;;
+esac
+
+# if interpreted as 'yes', then commit changes with comment. 
+case $DOTHIS in
+    'AddChanged')
+        git commit --all --message "${COMMENT}"
+        git push
+    ;;
+    'DropOut')
+        exit
+    ;;
+esac
